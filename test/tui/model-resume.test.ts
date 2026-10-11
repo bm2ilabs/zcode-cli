@@ -42,6 +42,7 @@ test.each(["glm", "GLM"])("TUI saves the default model after searching for %s an
 test("TUI moves the session onto the model saved by a runtime login", async () => {
   await using workspace = await ScenarioWorkspace.create({ prefix: "zcode-login-model-" });
   await using session = TerminalSession.start({ command: [process.execPath, loginModelFixture], workspace });
+  await session.waitForScreen("TUI ready", /Model access is not configured/u);
   await session.sendAndWait("/login bigmodel-coding-plan\r", "login response", /Configured BigModel Coding Plan/u);
   await session.sendAndWait(
     "check this project\r",
